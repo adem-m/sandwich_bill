@@ -1,4 +1,7 @@
 namespace Domain;
+using System;
+using System.Linq;
+using System.Collections.Generic;
 
 public class Bill {
     public Dictionary<Sandwich, int> sandwiches { get; private set; }
@@ -22,7 +25,7 @@ public class Bill {
         sandwiches[sandwich]--;
     }
 
-    public Price Total => 
+    public Price Total() => 
         sandwiches.Aggregate(
             new Price(0, "€"), 
             (acc, entry) => entry.Key.Price * entry.Value + acc
@@ -34,6 +37,6 @@ public class Bill {
             "", 
             (acc, entry) => $"{entry.Value} {entry.Key.Name}: \n {entry.Key.ToString} \n"
         );
-        return result + $"Prix total: {Total}";
+        return result + $"Prix total: {Total()}";
     }
 }
