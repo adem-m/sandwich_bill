@@ -40,11 +40,12 @@ public class Sandwich
     // Add an ingredient to the sandwich
     public void AddIngredient(Ingredient ingredient, Quantity quantity)
     {
-        var defaultQuantity = Ingredients.GetValueOrDefault(
-            ingredient, 
-            new Quantity(new Decimal(0.0), quantity.Unit)
-        );
-        Ingredients.Add(ingredient, defaultQuantity + quantity);
+        if (Ingredients.ContainsKey(ingredient))
+        {
+            Ingredients[ingredient] += quantity;
+            return;
+        }
+        Ingredients.Add(ingredient, quantity);
     }
 
     public override string ToString() {
