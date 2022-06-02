@@ -1,24 +1,56 @@
-﻿using System.ComponentModel.Design;
+﻿using System.Collections.Generic;
+using DefaultNamespace;
+using Domain;
 
 namespace Client;
 
 using System;
-public class Program {
 
-    private Parser _parser = new Parser();
+public class Program
+{
+    private Parser _parser = new();
+    private Menu _menu;
+
+    public Program(Menu menu)
+    {
+        _menu = menu;
+    }
+
     public static void Run()
     {
-        Program program = new Program();
+        DataStore dataStore = new DataStore();
+        Program program = new Program(dataStore.Menu);
         program.Launch();
     }
 
     public void Launch()
     {
         DisplayWelcome();
-        HandleCommands();
+        while (true)
+        {
+            Order order;
+            try
+            {
+                order = GetOrder();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                continue;
+            }
+
+            Bill bill = GenerateBill(order);
+            DisplayBill(bill);
+        }
     }
 
-    private void DisplayWelcome() {
+    private void DisplayBill(Bill bill)
+    {
+        Console.WriteLine(bill.ToString());
+    }
+
+    private void DisplayWelcome()
+    {
         string banner = @"
          _____                     _           __     ___                      _       
         |  ___| __ __ _ _ __   ___| | ___   _  \ \   / (_)_ __   ___ ___ _ __ | |_   _ 
@@ -35,17 +67,25 @@ public class Program {
         Console.WriteLine(banner);
     }
 
-    private void HandleCommands()
+    private Order GetOrder()
     {
-        bool otherCommand = true;
-        string valueEntry;
-        while (otherCommand) {
-            valueEntry = Console.ReadLine();
-            if(valueEntry == "") return;
-            Console.WriteLine("Value = valueEntry");
-            _parser.AddSandwichList(valueEntry);
+        string? entry = Console.ReadLine();
+        if (entry == null)
+        {
+            throw new Exception("Vous avez fait une erreur de saisie, bande de malpropres");
         }
 
-        Console.WriteLine(_parser.menu.ToString());
+        List<String> sandwichNames = _parser.Parse(entry);
+
+        List<Sandwich> sandwiches = sandwichNames.ConvertAll(sandwich => _menu.getByName(sandwich));
+
+        return new Order(sandwiches);
+    }
+
+    private Bill GenerateBill(Order order)
+    {
+        Bill bill = new Bill();
+        order.Sandwiches.ForEach(sandwich => bill.AddSandwich(sandwich));
+        return bill;
     }
 }

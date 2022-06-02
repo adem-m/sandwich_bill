@@ -1,46 +1,36 @@
-using System.ComponentModel.Design;
-using Domain;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Client;
 
 public class Parser
 {
-    private Bill bill;
-    public Menu menu;
+    public List<String> Parse(string orderString)
+    {
+        List<string> orderListString = orderString.Split(",").ToList();
+        List<String> result = new List<string>();
+        orderListString.ForEach(entry =>
+        {
+            string trimmedEntry = entry.Trim();
+            int spaceIndex = trimmedEntry.IndexOf(" ", StringComparison.Ordinal);
+            if (spaceIndex == -1) throw new InvalidEntryException(trimmedEntry);
 
-    public Parser()
-    {
-        bill = new Bill();
-        menu = new Menu();
-    }
-    public void AddSandwichList(string orderString)
-    {
-        string[] orderListString = orderString.Split(",");
-        foreach (var order in orderListString)
-        {
-            AddSandwichFromString(order);
-        }
-    }
-    public void AddSandwichFromString(string sandwichStringEntry)
-    {
-        // Parse string en Sandwich
-        string[] quantitySandwichName = sandwichStringEntry.Split(" ");
-        if (quantitySandwichName.Length != 2)
-        {
-            throw new InvalidEntryException(sandwichStringEntry);
-        }
-        string quantityString = quantitySandwichName[0].Trim();
-        int quantity;
-        try
-        {
-            quantity = int.Parse(quantityString);
-        }
-        catch (FormatException e)
-        {
-            throw new InvalidEntryException(sandwichStringEntry);
-        }
-        string sandwichString = quantitySandwichName[1].Trim();
-        Sandwich sandwich = menu.getByName(sandwichString);
-        bill.AddSandwich(sandwich);
+            string stringQuantity = trimmedEntry.Substring(0, spaceIndex);
+            string sandwichName = trimmedEntry.Substring(spaceIndex + 1);
+
+            int quantity;
+            try
+            {
+                quantity = int.Parse(stringQuantity);
+            }
+            catch (FormatException)
+            {
+                throw new InvalidEntryException(trimmedEntry);
+            }
+
+            for (int i = 0; i < quantity; i++) result.Add(sandwichName);
+        });
+        return result;
     }
 }

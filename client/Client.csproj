@@ -4,6 +4,15 @@
     <TargetFramework>net6.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <GenerateTargetFrameworkAttribute>false</GenerateTargetFrameworkAttribute>
   </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\project.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="exceptions\UnknownSandwichException.cs" />
+  </ItemGroup>
 
 </Project>

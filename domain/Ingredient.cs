@@ -1,6 +1,6 @@
 namespace Domain;
 
-public class Ingredient 
+public class Ingredient
 {
     public string Name { get; private set; }
 
@@ -15,7 +15,8 @@ public class Ingredient
         {
             return false;
         }
-        return ((Ingredient) obj).Name == Name;
+
+        return ((Ingredient)obj).Name == Name;
     }
 
     public override int GetHashCode()

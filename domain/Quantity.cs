@@ -10,7 +10,7 @@ public class Quantity
         Value = value;
     }
 
-    public Quantity(decimal Value, string? unit): this(Value)
+    public Quantity(decimal Value, string? unit) : this(Value)
     {
         Unit = unit;
     }
@@ -22,11 +22,11 @@ public class Quantity
         {
             return false;
         }
-        
-        Quantity quantity = ((Quantity) obj);
+
+        Quantity quantity = ((Quantity)obj);
         return Value == quantity.Value && Unit == quantity.Unit;
     }
-    
+
     // override object.GetHashCode
     public override int GetHashCode()
     {
@@ -39,6 +39,7 @@ public class Quantity
         {
             throw new InvalidQuantityOperation();
         }
+
         return new Quantity(quantity1.Value + quantity2.Value, quantity1.Unit);
     }
 

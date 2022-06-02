@@ -1,4 +1,5 @@
-﻿// See https://aka.ms/new-console-template for more information
+﻿using DefaultNamespace;
+
 namespace Project;
 
 public class Entrypoint
