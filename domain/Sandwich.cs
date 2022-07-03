@@ -4,12 +4,12 @@ using System.Collections.Generic;
 
 namespace Domain.Core;
 
-public class Sandwich
+public struct Sandwich
 {
-    public string Name { get; private set; }
+    public string Name { get; init; }
     private Dictionary<Ingredient, Quantity> Ingredients;
 
-    public Price Price { get; private set; }
+    public Price Price { get; init; }
 
     public Sandwich(string name, Price price)
     {
@@ -23,26 +23,6 @@ public class Sandwich
         Name = name;
         Ingredients = ingredients;
         Price = price;
-    }
-
-    // override object.Equals
-    public override bool Equals(object? obj)
-    {
-        if (obj == null || GetType() != obj.GetType())
-        {
-            return false;
-        }
-
-        var sandwich = (Sandwich)obj;
-        return Name == sandwich.Name &&
-               Ingredients.GetHashCode() == sandwich.Ingredients.GetHashCode() &&
-               Price == sandwich.Price;
-    }
-
-    // override object.GetHashCode
-    public override int GetHashCode()
-    {
-        return base.GetHashCode();
     }
 
     // Add an ingredient to the sandwich
