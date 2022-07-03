@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Client;
+namespace Domain.Exceptions;
 
 public class UnknownSandwichException : Exception
 {

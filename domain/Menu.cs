@@ -1,8 +1,7 @@
-using Client;
-
-namespace Domain;
-
 using System.Collections.Generic;
+using Domain.Exceptions;
+
+namespace Domain.Core;
 
 public class Menu
 {

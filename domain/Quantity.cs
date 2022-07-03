@@ -1,5 +1,6 @@
-namespace Domain;
+namespace Domain.Core;
 
+using Domain.Exceptions;
 public class Quantity
 {
     public decimal Value { get; private set; }

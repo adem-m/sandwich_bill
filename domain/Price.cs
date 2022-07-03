@@ -1,4 +1,6 @@
-namespace Domain;
+namespace Domain.Core;
+
+using Domain.Exceptions;
 
 public class Price
 {

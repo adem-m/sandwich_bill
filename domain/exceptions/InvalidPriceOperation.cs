@@ -1,6 +1,6 @@
-namespace Domain;
-
 using System;
+
+namespace Domain.Exceptions;
 
 public class InvalidPriceOperation : InvalidOperationException
 {

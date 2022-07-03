@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
-using Domain;
 
-namespace DefaultNamespace;
+namespace Domain.Core;
 
 public class DataStore
 {
