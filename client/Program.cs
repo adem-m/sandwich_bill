@@ -16,8 +16,8 @@ public class Program
 
     public static int Main()
     {
-        DataStore dataStore = new DataStore();
-        Program program = new Program(dataStore.Menu);
+        DataStore dataStore = DataStore.Instance;
+        Program program = new Program(dataStore);
         program.Launch();
         return 0;
     }
