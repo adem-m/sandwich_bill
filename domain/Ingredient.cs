@@ -1,4 +1,4 @@
-namespace Domain;
+namespace Domain.Core;
 
 public class Ingredient
 {

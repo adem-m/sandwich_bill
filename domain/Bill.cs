@@ -1,8 +1,9 @@
-namespace Domain;
-
 using System;
 using System.Linq;
 using System.Collections.Generic;
+using Domain.Exceptions;
+
+namespace Domain.Core;
 
 public class Bill
 {

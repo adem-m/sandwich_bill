@@ -1,10 +1,8 @@
-﻿using System.Collections.Generic;
-using DefaultNamespace;
-using Domain;
-
-namespace Client;
+﻿namespace Client;
 
 using System;
+using System.Collections.Generic;
+using Domain.Core;
 
 public class Program
 {
@@ -16,11 +14,12 @@ public class Program
         _menu = menu;
     }
 
-    public static void Run()
+    public static int Main()
     {
-        DataStore dataStore = new DataStore();
-        Program program = new Program(dataStore.Menu);
+        DataStore dataStore = DataStore.Instance;
+        Program program = new Program(dataStore);
         program.Launch();
+        return 0;
     }
 
     public void Launch()

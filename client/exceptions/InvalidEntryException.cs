@@ -1,6 +1,6 @@
 using System;
 
-namespace Client;
+namespace Client.Exceptions;
 
 public class InvalidEntryException : Exception
 {

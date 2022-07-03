@@ -6,9 +6,4 @@
     <Nullable>enable</Nullable>
     <GenerateTargetFrameworkAttribute>false</GenerateTargetFrameworkAttribute>
   </PropertyGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\client\Client.csproj" />
-  </ItemGroup>
-
 </Project>

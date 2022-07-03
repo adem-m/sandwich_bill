@@ -1,10 +1,30 @@
 ﻿using System.Collections.Generic;
-using Domain;
+using Domain.Exceptions;
 
-namespace DefaultNamespace;
+namespace Domain.Core;
 
-public class DataStore
+public class DataStore : Menu
 {
+    private static DataStore? _instance;
+    private static object _lock = new object();
+    public static DataStore Instance 
+    { 
+        get
+        {
+            lock(_lock)
+            {
+                if (_instance == null)
+                {
+                    _instance = new DataStore();
+                    _instance.AddEntry(HAM_BUTTER);
+                    _instance.AddEntry(CHICKEN_VEGETABLES);
+                    _instance.AddEntry(DIEPPOIS);
+                }
+                return _instance;
+            }
+        } 
+    }
+
     private static string DEFAULT_CURRENCY = "EUR";
     private static string GRAMS_UNIT = "g";
 
@@ -56,12 +76,22 @@ public class DataStore
         }
     );
 
-    public Menu Menu { get; } = new();
+    private Dictionary<string, Sandwich> _data = new();
 
-    public DataStore()
+    private DataStore() {}
+
+    public void AddEntry(Sandwich sandwich)
     {
-        Menu.AddEntry(HAM_BUTTER);
-        Menu.AddEntry(CHICKEN_VEGETABLES);
-        Menu.AddEntry(DIEPPOIS);
+        _data.Add(sandwich.Name, sandwich);
+    }
+
+    public Sandwich getByName(string name)
+    {
+        if (!_data.ContainsKey(name))
+        {
+            throw new UnknownSandwichException(name);
+        }
+
+        return _data[name];
     }
 }

@@ -1,8 +1,9 @@
+namespace Client;
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
-
-namespace Client;
+using Client.Exceptions;
 
 public class Parser
 {

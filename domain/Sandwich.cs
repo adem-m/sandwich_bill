@@ -1,8 +1,8 @@
-﻿namespace Domain;
-
-using System;
+﻿using System;
 using System.Linq;
 using System.Collections.Generic;
+
+namespace Domain.Core;
 
 public class Sandwich
 {

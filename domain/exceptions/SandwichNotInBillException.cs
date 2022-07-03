@@ -1,6 +1,7 @@
-namespace Domain;
+namespace Domain.Exceptions;
 
 using System;
+using Domain.Core;
 
 public class SandwichNotInBillException : Exception
 {
