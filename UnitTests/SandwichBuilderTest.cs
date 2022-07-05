@@ -22,7 +22,7 @@ public class SandwichBuilderTest
         Assert.IsType<Sandwich>(s);
         Assert.Equal("sandwich", s.Name);
         Assert.Equal(new Price(10.0m, "EUR"), s.Price);
-        Assert.Equal(1, s.Ingredients.Count);
+        Assert.Single(s.Ingredients);
     }
 
     [Fact]

@@ -1,45 +1,54 @@
 ﻿using System;
 using System.Linq;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 
 namespace Domain.Core;
 
 public struct Sandwich
 {
     public string Name { get; init; }
-    public Dictionary<Ingredient, Quantity> Ingredients { get; init; }
+    private Dictionary<Ingredient, Quantity> _ingredients;
+    public ReadOnlyCollection<(Ingredient, Quantity)> Ingredients
+    {
+        get => 
+            _ingredients
+                .Select(pair => (pair.Key, pair.Value))
+                .ToList()
+                .AsReadOnly();
+    }
 
     public Price Price { get; init; }
 
     public Sandwich(string name, Price price)
     {
         Name = name;
-        Ingredients = new Dictionary<Ingredient, Quantity>();
+        _ingredients = new Dictionary<Ingredient, Quantity>();
         Price = price;
     }
 
     public Sandwich(string name, Price price, Dictionary<Ingredient, Quantity> ingredients)
     {
         Name = name;
-        Ingredients = ingredients;
+        _ingredients = ingredients;
         Price = price;
     }
 
     // Add an ingredient to the sandwich
     public void AddIngredient(Ingredient ingredient, Quantity quantity)
     {
-        if (Ingredients.ContainsKey(ingredient))
+        if (_ingredients.ContainsKey(ingredient))
         {
-            Ingredients[ingredient] += quantity;
+            _ingredients[ingredient] += quantity;
             return;
         }
 
-        Ingredients.Add(ingredient, quantity);
+        _ingredients.Add(ingredient, quantity);
     }
 
     public override string ToString()
     {
-        return Ingredients.Aggregate(
+        return _ingredients.Aggregate(
             "",
             (acc, entry) => acc + $"\t{entry.Value} {entry.Key} \n"
         );

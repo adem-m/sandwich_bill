@@ -1,18 +1,23 @@
 ﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
 
 namespace Domain.Core;
 
 public class Order
 {
-    public List<Sandwich> Sandwiches { get; } = new();
+    private List<Sandwich> _sandwiches;
+    public ReadOnlyCollection<Sandwich> Sandwiches
+    {
+        get => _sandwiches.AsReadOnly();
+    }
 
     public Order(List<Sandwich> sandwiches)
     {
-        Sandwiches = sandwiches;
+        _sandwiches = sandwiches;
     }
 
     public void AddSandwich(Sandwich sandwich)
     {
-        Sandwiches.Add(sandwich);
+        _sandwiches.Add(sandwich);
     }
 }
