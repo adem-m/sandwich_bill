@@ -7,7 +7,7 @@ namespace Domain.Core;
 public struct Sandwich
 {
     public string Name { get; init; }
-    private Dictionary<Ingredient, Quantity> Ingredients;
+    public Dictionary<Ingredient, Quantity> Ingredients { get; init; }
 
     public Price Price { get; init; }
 
