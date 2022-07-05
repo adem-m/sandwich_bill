@@ -7,8 +7,9 @@ public class DataStore : Menu
 {
     private static DataStore? _instance;
     private static object _lock = new object();
-    public static DataStore Instance 
-    { 
+
+    public static DataStore Instance
+    {
         get
         {
             if (_instance == null)
@@ -41,47 +42,40 @@ public class DataStore : Menu
     private static Ingredient SALAD = new("Salade");
     private static Ingredient TUNA = new("Thon");
 
-    private static Sandwich HAM_BUTTER = new(
-        "Jambon beurre",
-        new Price(3.5m, DEFAULT_CURRENCY),
-        new Dictionary<Ingredient, Quantity>
-        {
-            { BREAD, new Quantity(1) },
-            { HAM, new Quantity(1) },
-            { BUTTER, new Quantity(10, GRAMS_UNIT) }
-        }
-    );
+    private static Sandwich HAM_BUTTER = new SandwichBuilder()
+        .WithName("Jambon beurre")
+        .WithPrice(new Price(3.5m, DEFAULT_CURRENCY))
+        .WithIngredient(BREAD, new Quantity(1))
+        .WithIngredient(HAM, new Quantity(1))
+        .WithIngredient(BUTTER, new Quantity(10, GRAMS_UNIT))
+        .Build();
 
-    private static Sandwich CHICKEN_VEGETABLES = new(
-        "Poulet crudités",
-        new Price(5, DEFAULT_CURRENCY),
-        new Dictionary<Ingredient, Quantity>
-        {
-            { BREAD, new Quantity(1) },
-            { EGG, new Quantity(1) },
-            { TOMATO, new Quantity(0.5m) },
-            { CHICKEN, new Quantity(1) },
-            { MAYONNAISE, new Quantity(10, GRAMS_UNIT) },
-            { SALAD, new Quantity(10, GRAMS_UNIT) }
-        }
-    );
+    private static Sandwich CHICKEN_VEGETABLES = new SandwichBuilder()
+        .WithName("Poulet crudités")
+        .WithPrice(new Price(5, DEFAULT_CURRENCY))
+        .WithIngredient(BREAD, new Quantity(1))
+        .WithIngredient(EGG, new Quantity(1))
+        .WithIngredient(TOMATO, new Quantity(0.5m))
+        .WithIngredient(CHICKEN, new Quantity(1))
+        .WithIngredient(MAYONNAISE, new Quantity(10, GRAMS_UNIT))
+        .WithIngredient(SALAD, new Quantity(10, GRAMS_UNIT))
+        .Build();
 
-    private static Sandwich DIEPPOIS = new(
-        "Dieppois",
-        new Price(4.5m, DEFAULT_CURRENCY),
-        new Dictionary<Ingredient, Quantity>
-        {
-            { BREAD, new Quantity(1) },
-            { TUNA, new Quantity(50, GRAMS_UNIT) },
-            { TOMATO, new Quantity(0.5m) },
-            { MAYONNAISE, new Quantity(10, GRAMS_UNIT) },
-            { SALAD, new Quantity(10, GRAMS_UNIT) }
-        }
-    );
+    private static Sandwich DIEPPOIS = new SandwichBuilder()
+        .WithName("Dieppois")
+        .WithPrice(new Price(4.5m, DEFAULT_CURRENCY))
+        .WithIngredient(BREAD, new Quantity(1))
+        .WithIngredient(TUNA, new Quantity(50, GRAMS_UNIT))
+        .WithIngredient(TOMATO, new Quantity(0.5m))
+        .WithIngredient(MAYONNAISE, new Quantity(10, GRAMS_UNIT))
+        .WithIngredient(SALAD, new Quantity(10, GRAMS_UNIT))
+        .Build();
 
     private Dictionary<string, Sandwich> _data = new();
 
-    private DataStore() {}
+    private DataStore()
+    {
+    }
 
     public void AddEntry(Sandwich sandwich)
     {
