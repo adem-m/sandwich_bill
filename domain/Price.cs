@@ -2,33 +2,15 @@ namespace Domain.Core;
 
 using Domain.Exceptions;
 
-public class Price
+public readonly struct Price
 {
-    public decimal Value { get; }
-    public string Currency { get; }
+    public decimal Value { get; init; }
+    public string Currency { get; init; }
 
     public Price(decimal value, string currency)
     {
         Value = value;
         Currency = currency;
-    }
-
-    // override object.Equals
-    public override bool Equals(object? obj)
-    {
-        if (obj == null || GetType() != obj.GetType())
-        {
-            return false;
-        }
-
-        Price price = ((Price)obj);
-        return Value == price.Value && Currency == price.Currency;
-    }
-
-    // override object.GetHashCode
-    public override int GetHashCode()
-    {
-        return base.GetHashCode();
     }
 
     public override string ToString()

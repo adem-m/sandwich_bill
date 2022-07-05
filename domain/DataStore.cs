@@ -12,19 +12,21 @@ public class DataStore : Menu
     {
         get
         {
-            lock (_lock)
+            if (_instance == null)
             {
-                if (_instance == null)
+                lock(_lock)
                 {
-                    _instance = new DataStore();
-                    _instance.AddEntry(HAM_BUTTER);
-                    _instance.AddEntry(CHICKEN_VEGETABLES);
-                    _instance.AddEntry(DIEPPOIS);
+                    if (_instance == null)
+                    {
+                        _instance = new DataStore();
+                        _instance.AddEntry(HAM_BUTTER);
+                        _instance.AddEntry(CHICKEN_VEGETABLES);
+                        _instance.AddEntry(DIEPPOIS);
+                    }
                 }
-
-                return _instance;
             }
-        }
+            return _instance;
+        } 
     }
 
     private static string DEFAULT_CURRENCY = "EUR";
@@ -86,7 +88,6 @@ public class DataStore : Menu
         {
             throw new UnknownSandwichException(name);
         }
-
         return _data[name];
     }
 }

@@ -83,8 +83,9 @@ public class Program
 
     private Bill GenerateBill(Order order)
     {
-        Bill bill = new Bill();
-        order.Sandwiches.ForEach(sandwich => bill.AddSandwich(sandwich));
-        return bill;
+        return order.Sandwiches.Aggregate(new Bill(), (bill, sandwich) => {
+            bill.AddSandwich(sandwich);
+            return bill;
+        });
     }
 }

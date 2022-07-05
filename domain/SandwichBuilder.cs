@@ -1,38 +1,39 @@
-﻿namespace Domain.Core;
+﻿using Domain.Exceptions;
+
+namespace Domain.Core;
 
 public class SandwichBuilder
 {
-    private string Name;
-    private Dictionary<Ingredient, Quantity> Ingredients;
-    private Price Price;
-
-    public SandwichBuilder()
-    {
-        Name = "";
-        Ingredients = new Dictionary<Ingredient, Quantity>();
-        Price = new(0, "");
-    }
+    private string? _name;
+    private Dictionary<Ingredient, Quantity> _ingredients = new Dictionary<Ingredient, Quantity>();
+    private Price? _price;
 
     public SandwichBuilder WithName(string name)
     {
-        Name = name;
+        _name = name;
         return this;
     }
 
     public SandwichBuilder WithIngredient(Ingredient ingredient, Quantity quantity)
     {
-        Ingredients.Add(ingredient, quantity);
+        _ingredients.Add(ingredient, quantity);
         return this;
     }
 
     public SandwichBuilder WithPrice(Price price)
     {
-        Price = price;
+        _price = price;
         return this;
     }
 
     public Sandwich Build()
     {
-        return new Sandwich(Name, Price, Ingredients);
+        if (_name is null
+            || _ingredients.Count == 0
+            || !_price.HasValue)
+        {
+            throw new SandwichArgumentException();
+        }
+        return new Sandwich(_name, _price.Value, _ingredients);
     }
 }
