@@ -76,7 +76,7 @@ public class Program
 
         List<String> sandwichNames = _parser.Parse(entry);
 
-        List<Sandwich> sandwiches = sandwichNames.ConvertAll(sandwich => _menu.getByName(sandwich));
+        List<Sandwich> sandwiches = sandwichNames.ConvertAll(sandwich => _menu.createSandwich(sandwich));
 
         return new Order(sandwiches);
     }

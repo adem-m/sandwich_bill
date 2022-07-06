@@ -42,6 +42,8 @@ public class DataStore : Menu
     private static Ingredient SALAD = new("Salade");
     private static Ingredient TUNA = new("Thon");
 
+    private static Dictionary<string, Ingredient> _ingredients = new();
+
     private static Sandwich HAM_BUTTER = new SandwichBuilder()
         .WithName("Jambon beurre")
         .WithPrice(new Price(3.5m, DEFAULT_CURRENCY))
@@ -75,6 +77,15 @@ public class DataStore : Menu
 
     private DataStore()
     {
+        _ingredients.Add(BREAD.Name, BREAD);
+        _ingredients.Add(HAM.Name, HAM);
+        _ingredients.Add(BUTTER.Name, BUTTER);
+        _ingredients.Add(EGG.Name, EGG);
+        _ingredients.Add(TOMATO.Name, TOMATO);
+        _ingredients.Add(CHICKEN.Name, CHICKEN);
+        _ingredients.Add(MAYONNAISE.Name, MAYONNAISE);
+        _ingredients.Add(SALAD.Name, SALAD);
+        _ingredients.Add(TUNA.Name, TUNA);
     }
 
     public void AddEntry(Sandwich sandwich)
@@ -89,5 +100,61 @@ public class DataStore : Menu
             throw new UnknownSandwichException(name);
         }
         return _data[name];
+    }
+
+    public Sandwich createSandwich(string sandwich)
+    {
+        if (_data.ContainsKey(sandwich))
+            return _data[sandwich];
+
+        Dictionary<Ingredient, Quantity> ingredients = new Dictionary<Ingredient, Quantity>();
+
+        List<string> ingredientList = sandwich.Split(" ").ToList();
+        ingredientList.ForEach(ingredientEntry =>
+        {
+            string[] ingredientNameAndQuantity = ingredientEntry.Split(":");
+            if (ingredientNameAndQuantity.Length != 2)
+                throw new InvalidIngredientFormat(ingredientEntry);
+
+            string ingredientName = ingredientNameAndQuantity[0];
+            string ingredientQuantity = ingredientNameAndQuantity[1];
+            if (ingredientNameAndQuantity.Length != 2)
+                throw new InvalidIngredientFormat(ingredientEntry);
+
+            Ingredient ingredient = MapIngredient(ingredientName);
+            Quantity quantity = MapQuantity(ingredientQuantity);
+
+            ingredients.Add(ingredient, quantity);
+        });
+        Price price = new Price(ingredients.Count, DEFAULT_CURRENCY);
+        SandwichBuilder builder = new SandwichBuilder()
+            .WithName("Sandwich custom")
+            .WithPrice(price);
+
+        foreach (KeyValuePair<Ingredient, Quantity> entry in ingredients)
+            builder.WithIngredient(entry.Key, entry.Value);
+
+        return builder.Build();
+    }
+
+    private Ingredient MapIngredient(string entry)
+    {
+        Ingredient? ingredient = _ingredients.GetValueOrDefault(entry);
+        if (!ingredient.HasValue)
+            throw new UnknownIngredientException(entry);
+
+        return ingredient.Value;
+    }
+
+    private Quantity MapQuantity(string ingredientQuantity)
+    {
+        string[] ingredientQuantityWithUnit = ingredientQuantity.Split("_");
+        if (ingredientQuantityWithUnit.Length > 2)
+            throw new InvalidQuantityFormat(ingredientQuantity);
+
+        decimal quantityEntry = decimal.Parse(ingredientQuantityWithUnit[0]);
+        string? unit = ingredientQuantityWithUnit.Length == 2 ? ingredientQuantityWithUnit[1] : null;
+
+        return unit == null ? new Quantity(quantityEntry) : new Quantity(quantityEntry, unit);
     }
 }

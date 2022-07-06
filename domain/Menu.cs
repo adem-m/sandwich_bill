@@ -4,4 +4,6 @@ public interface Menu
 {
     void AddEntry(Sandwich sandwich);
     Sandwich getByName(string name);
+
+    Sandwich createSandwich(string sandwich);
 }
