@@ -33,4 +33,9 @@ public readonly struct Price
 
     public static Price operator *(int factor, Price price) =>
         new Price(price.Value * factor, price.Currency);
+    
+    public static Price operator *(Quantity quantity, Price price) =>
+        new Price(price.Value * quantity.Value, price.Currency);
+    public static Price operator *( Price price, Quantity quantity) =>
+        new Price(price.Value * quantity.Value, price.Currency);
 }

@@ -31,16 +31,23 @@ public class DataStore : Menu
 
     private static string DEFAULT_CURRENCY = "EUR";
     private static string GRAMS_UNIT = "g";
+    
+    private static Price PRICE_PER_INGREDIENT = new Price(1, DEFAULT_CURRENCY);
+    
+    public static Ingredient BREAD = new("Pain");
+    public static Ingredient HAM = new("Tranche de jambon");
+    public static Ingredient BUTTER = new("Beurre");
+    public static Ingredient EGG = new("Oeuf");
+    public static Ingredient TOMATO = new("Tomate");
+    public static Ingredient CHICKEN = new("Tranche de poulet");
+    public static Ingredient MAYONNAISE = new("Mayonnaise");
+    public static Ingredient SALAD = new("Salade");
+    public static Ingredient TUNA = new("Thon");
 
-    private static Ingredient BREAD = new("Pain");
-    private static Ingredient HAM = new("Tranche de jambon");
-    private static Ingredient BUTTER = new("Beurre");
-    private static Ingredient EGG = new("Oeuf");
-    private static Ingredient TOMATO = new("Tomate");
-    private static Ingredient CHICKEN = new("Tranche de poulet");
-    private static Ingredient MAYONNAISE = new("Mayonnaise");
-    private static Ingredient SALAD = new("Salade");
-    private static Ingredient TUNA = new("Thon");
+    public List<Ingredient> IngredientList = new List<Ingredient>()
+    {
+        BREAD, HAM, BUTTER, EGG, TOMATO, CHICKEN, MAYONNAISE, SALAD, TUNA
+    };
 
     private static Dictionary<string, Ingredient> _ingredients = new();
 
@@ -156,5 +163,55 @@ public class DataStore : Menu
         string? unit = ingredientQuantityWithUnit.Length == 2 ? ingredientQuantityWithUnit[1] : null;
 
         return unit == null ? new Quantity(quantityEntry) : new Quantity(quantityEntry, unit);
+    }
+
+        public Ingredient getIngredientByName(string name)
+    {
+        Ingredient givenIngredient = new Ingredient(name);
+        foreach (var ingredient in IngredientList)
+        {
+            if (givenIngredient.Equals(ingredient))
+            {
+                return ingredient;
+            }
+        }
+        throw new UnknownIngredientException(givenIngredient);
+    }
+
+    public Quantity quantityFromString(string stringQuantity)
+    {
+        string unit = null;
+        if (stringQuantity.Contains('g'))
+        {
+            unit = "g";
+            stringQuantity = stringQuantity.Replace("g", String.Empty);
+            Console.WriteLine("stringQuantity: " + stringQuantity);
+        }
+        int quantity;
+        try
+        {
+            quantity = int.Parse(stringQuantity);
+        }
+        catch (FormatException)
+        {
+            throw new InvalidQuantityException(stringQuantity);
+        }
+
+        if (unit == null)
+        {
+            return new Quantity(quantity);
+        }
+
+        return new Quantity(quantity, unit);
+    }
+
+    public static Price getCustomSandwichPrice(Sandwich sandwich)
+    {
+        Price price = new Price(0, DEFAULT_CURRENCY);
+        foreach (var entry in sandwich.Ingredients)
+        {
+            price += PRICE_PER_INGREDIENT * entry.Value;
+        }
+        return PRICE_PER_INGREDIENT * sandwich.Ingredients.Count;
     }
 }

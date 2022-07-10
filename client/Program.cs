@@ -1,4 +1,6 @@
-﻿namespace Client;
+﻿using Domain.Core.handlers;
+
+namespace Client;
 
 using System;
 using System.Collections.Generic;
@@ -73,12 +75,15 @@ public class Program
         {
             throw new Exception("Vous avez fait une erreur de saisie, bande de malpropres");
         }
+        PlainInputHandler plainInputHandler = new PlainInputHandler(new PlainInput(entry));
+        Order order = plainInputHandler.handle();
 
-        List<String> sandwichNames = _parser.Parse(entry);
+        /*List<String> sandwichNames = _parser.Parse(entry);
 
         List<Sandwich> sandwiches = sandwichNames.ConvertAll(sandwich => _menu.createSandwich(sandwich));
 
-        return new Order(sandwiches);
+        return new Order(sandwiches);*/
+        return order;
     }
 
     private Bill GenerateBill(Order order)
