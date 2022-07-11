@@ -7,6 +7,7 @@ public class SandwichBuilder
     private string? _name;
     private Dictionary<Ingredient, Quantity> _ingredients = new Dictionary<Ingredient, Quantity>();
     private Price? _price;
+    private static readonly DataStore _dataStore = DataStore.Instance;
 
     public SandwichBuilder WithName(string name)
     {
@@ -28,12 +29,16 @@ public class SandwichBuilder
 
     public Sandwich Build()
     {
-        if (_name is null
-            || _ingredients.Count == 0
-            || !_price.HasValue)
+        if ((_name is null && _ingredients.Count == 0))
         {
             throw new SandwichArgumentException();
+        } 
+        _price ??= DataStore.GetPrice(_ingredients);
+        if (_name is null)
+        {
+            return new Sandwich(_price.Value, _ingredients);
         }
+   
         return new Sandwich(_name, _price.Value, _ingredients);
     }
 }

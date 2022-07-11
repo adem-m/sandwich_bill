@@ -32,7 +32,7 @@ public class DataStore : Menu
     private static string DEFAULT_CURRENCY = "EUR";
     private static string GRAMS_UNIT = "g";
     
-    private static Price PRICE_PER_INGREDIENT = new Price(1, DEFAULT_CURRENCY);
+    private static Price PRICE_PER_INGREDIENT = new(1, DEFAULT_CURRENCY);
     
     public static Ingredient BREAD = new("Pain");
     public static Ingredient HAM = new("Tranche de jambon");
@@ -43,11 +43,7 @@ public class DataStore : Menu
     public static Ingredient MAYONNAISE = new("Mayonnaise");
     public static Ingredient SALAD = new("Salade");
     public static Ingredient TUNA = new("Thon");
-
-    public List<Ingredient> IngredientList = new List<Ingredient>()
-    {
-        BREAD, HAM, BUTTER, EGG, TOMATO, CHICKEN, MAYONNAISE, SALAD, TUNA
-    };
+    
 
     private static Dictionary<string, Ingredient> _ingredients = new();
 
@@ -123,7 +119,7 @@ public class DataStore : Menu
             if (ingredientNameAndQuantity.Length != 2)
                 throw new InvalidIngredientFormat(ingredientEntry);
 
-            string ingredientName = ingredientNameAndQuantity[0];
+            string ingredientName = ingredientNameAndQuantity[0].Replace('_', ' ');
             string ingredientQuantity = ingredientNameAndQuantity[1];
             if (ingredientNameAndQuantity.Length != 2)
                 throw new InvalidIngredientFormat(ingredientEntry);
@@ -144,16 +140,15 @@ public class DataStore : Menu
         return builder.Build();
     }
 
-    private Ingredient MapIngredient(string entry)
+    public Ingredient MapIngredient(string entry)
     {
         Ingredient? ingredient = _ingredients.GetValueOrDefault(entry);
         if (!ingredient.HasValue)
             throw new UnknownIngredientException(entry);
-
         return ingredient.Value;
     }
 
-    private Quantity MapQuantity(string ingredientQuantity)
+    public Quantity MapQuantity(string ingredientQuantity)
     {
         string[] ingredientQuantityWithUnit = ingredientQuantity.Split("_");
         if (ingredientQuantityWithUnit.Length > 2)
@@ -165,53 +160,13 @@ public class DataStore : Menu
         return unit == null ? new Quantity(quantityEntry) : new Quantity(quantityEntry, unit);
     }
 
-        public Ingredient getIngredientByName(string name)
-    {
-        Ingredient givenIngredient = new Ingredient(name);
-        foreach (var ingredient in IngredientList)
-        {
-            if (givenIngredient.Equals(ingredient))
-            {
-                return ingredient;
-            }
-        }
-        throw new UnknownIngredientException(givenIngredient);
-    }
-
-    public Quantity quantityFromString(string stringQuantity)
-    {
-        string unit = null;
-        if (stringQuantity.Contains('g'))
-        {
-            unit = "g";
-            stringQuantity = stringQuantity.Replace("g", String.Empty);
-            Console.WriteLine("stringQuantity: " + stringQuantity);
-        }
-        int quantity;
-        try
-        {
-            quantity = int.Parse(stringQuantity);
-        }
-        catch (FormatException)
-        {
-            throw new InvalidQuantityException(stringQuantity);
-        }
-
-        if (unit == null)
-        {
-            return new Quantity(quantity);
-        }
-
-        return new Quantity(quantity, unit);
-    }
-
-    public static Price getCustomSandwichPrice(Sandwich sandwich)
+    public static Price GetPrice(Dictionary<Ingredient, Quantity> ingredients)
     {
         Price price = new Price(0, DEFAULT_CURRENCY);
-        foreach (var entry in sandwich.Ingredients)
+        foreach (var ingredient in ingredients)
         {
-            price += PRICE_PER_INGREDIENT * entry.Value;
+            price += PRICE_PER_INGREDIENT * ingredient.Value;
         }
-        return PRICE_PER_INGREDIENT * sandwich.Ingredients.Count;
+        return price;
     }
 }

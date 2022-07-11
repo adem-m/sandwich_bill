@@ -1,4 +1,6 @@
-﻿using Domain.Core.handlers;
+﻿using Client.input;
+using Client.output;
+using Domain.Core.handlers;
 
 namespace Client;
 
@@ -8,12 +10,18 @@ using Domain.Core;
 
 public class Program
 {
-    private Parser _parser = new();
+    private TextInputParser _textInputParser = new();
     private Menu _menu;
-
+    private InputType? _inputType;
+    private FactoryInputHandler? _inputFactory;
+    
+    private static string DEFAULT_FILE_LOCATION = "./output/bill";
+    
     public Program(Menu menu)
     {
         _menu = menu;
+        _inputFactory = null;
+        _inputType = null;
     }
 
     public static int Main()
@@ -32,16 +40,15 @@ public class Program
             Order order;
             try
             {
-                order = GetOrder();
+                order = HandleInput();
             }
             catch (Exception e)
             {
                 Console.WriteLine(e.Message);
                 continue;
             }
-
             Bill bill = GenerateBill(order);
-            DisplayBill(bill);
+            HandleOutput(bill);
         }
     }
 
@@ -68,22 +75,37 @@ public class Program
         Console.WriteLine(banner);
     }
 
-    private Order GetOrder()
+    private void InferInputType(string input)
+    {
+        if (!input.Contains('/'))
+        {
+            _inputType = InputType.Text;
+            return;
+        } 
+        if(input.EndsWith(".json"))
+        {
+            _inputType = InputType.Json;
+            return;
+        }
+        if(input.EndsWith(".xml"))
+        {
+            _inputType = InputType.Xml;
+            return;
+        }
+        _inputType = InputType.Text;
+    }
+    
+    private Order HandleInput()
     {
         string? entry = Console.ReadLine();
         if (entry == null)
         {
             throw new Exception("Vous avez fait une erreur de saisie, bande de malpropres");
         }
-        PlainInputHandler plainInputHandler = new PlainInputHandler(new PlainInput(entry));
-        Order order = plainInputHandler.handle();
-
-        /*List<String> sandwichNames = _parser.Parse(entry);
-
-        List<Sandwich> sandwiches = sandwichNames.ConvertAll(sandwich => _menu.createSandwich(sandwich));
-
-        return new Order(sandwiches);*/
-        return order;
+        InferInputType(entry);
+        if (_inputType == null) throw new Exception("Input type not set");
+        _inputFactory = new FactoryInputHandler(_inputType.Value);
+        return _inputFactory.handle(entry);
     }
 
     private Bill GenerateBill(Order order)
@@ -92,5 +114,28 @@ public class Program
             bill.AddSandwich(sandwich);
             return bill;
         });
+    }
+    
+    private void HandleOutput(Bill bill)
+    {
+        IOutputStrategy strategy = null;
+        switch (_inputType)
+        {
+            case InputType.TextFile:
+                strategy = new TextOutputStrategy();
+                break;
+            case InputType.Json:
+                strategy = new JsonFileOutputStrategy(DEFAULT_FILE_LOCATION + ".json");
+                break;
+            case InputType.Xml:
+                strategy = new XmlFileOutputStrategy(DEFAULT_FILE_LOCATION + ".xml");
+                break;
+            case InputType.Text:
+                strategy = new TextFileOutputStrategy(DEFAULT_FILE_LOCATION + ".txt");
+                break;
+            default:
+                throw new Exception("Input type not set");
+        }
+        strategy?.DisplayOutput(bill);
     }
 }

@@ -18,18 +18,19 @@ public struct Sandwich
                 .AsReadOnly();
     }
 
-    public Price Price { get; init; }
+    public Price Price { get; set; }
 
-    public Sandwich(string name, Price price)
-    {
-        Name = name;
-        _ingredients = new Dictionary<Ingredient, Quantity>();
-        Price = price;
-    }
 
     public Sandwich(string name, Price price, Dictionary<Ingredient, Quantity> ingredients)
     {
         Name = name;
+        _ingredients = ingredients;
+        Price = price;
+    }
+
+    public Sandwich(Price price, Dictionary<Ingredient, Quantity> ingredients)
+    {
+        Name = "Unamed sandwich";
         _ingredients = ingredients;
         Price = price;
     }

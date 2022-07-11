@@ -15,12 +15,11 @@ public class PlainInput : Input
 
 public class PlainFileInput : Input
 {
-    private string FileName { get; set; }
+    public string FileName { get; set; }
     public PlainFileInput(string fileName)
     {
         FileName = fileName;
     }
-    
 }
 
 public class JsonFileInput : Input
@@ -32,10 +31,10 @@ public class JsonFileInput : Input
     }
 }
 
-public class XMLInput : Input
+public class XmlFileInput : Input
 {
     public string FileName { get; set; }
-    public XMLInput(string fileName)
+    public XmlFileInput(string fileName)
     {
         FileName = fileName;
     }

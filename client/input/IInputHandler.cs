@@ -1,6 +1,6 @@
 namespace Domain.Core.handlers;
 
-public interface InputHandler
+public interface IInputHandler
 {
     Order handle();
 }

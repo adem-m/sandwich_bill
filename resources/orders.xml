@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+    <orders>
+        <order>
+            <ingredients>
+                <ingredient>
+                    <name>Pain</name>
+                    <quantity>2</quantity>
+                </ingredient>
+                <ingredient>
+                    <name>Oeuf</name>
+                    <quantity>1</quantity>
+                </ingredient>
+                <ingredient>
+                    <name>Thon</name>
+                    <quantity>30_g</quantity>
+                </ingredient>
+            </ingredients>
+            <quantity>1</quantity>
+        </order>
+        <order>
+            <ingredients>
+                <ingredient>
+                    <name>Pain</name>
+                    <quantity>2</quantity>
+                </ingredient>
+                <ingredient>
+                    <name>Tranche de jambon</name>
+                    <quantity>40</quantity>
+                </ingredient>
+                <ingredient>
+                    <name>Salade</name>
+                    <quantity>10_g</quantity>
+                </ingredient>
+            </ingredients>
+            <quantity>3</quantity>
+        </order>
+        <order>
+            <name>Poulet crudités</name>
+            <quantity>2</quantity>
+        </order>
+    </orders>
+</root>
