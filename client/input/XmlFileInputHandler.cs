@@ -14,13 +14,13 @@ public class XmlFileInputHandler : IInputHandler
     }
     public Order handle()
     {
-        OrderListDTO? orderDtoList;
-        XmlSerializer serializer = new XmlSerializer(typeof(OrderListDTO));
+        OrderListDto? orderDtoList;
+        XmlSerializer serializer = new XmlSerializer(typeof(OrderListDto));
         using (StreamReader r = new StreamReader(_input.FileName))
         {
-            orderDtoList = (OrderListDTO)serializer.Deserialize(r)!;
+            orderDtoList = (OrderListDto)serializer.Deserialize(r)!;
         }
         if (orderDtoList == null) throw new InvalidJsonEntryException();
-        return OrderMapper.toOrder(orderDtoList);
+        return OrderMapper.ToOrder(orderDtoList);
     }
 }

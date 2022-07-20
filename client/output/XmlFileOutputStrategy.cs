@@ -1,3 +1,4 @@
+using System.Xml.Linq;
 using System.Xml.Serialization;
 using Domain.Core;
 using Domain.Core.handlers;
@@ -15,8 +16,10 @@ public class XmlFileOutputStrategy : IOutputStrategy
 
     public void DisplayOutput(Bill bill)
     {   
-        XmlSerializer serializer = new XmlSerializer(typeof(BillDTO));
+        XmlSerializer serializer = new XmlSerializer(typeof(BillDto));
         using TextWriter writer = new StreamWriter(_fileLocation);
-        serializer.Serialize(writer, bill);
+        serializer.Serialize(writer, BillMapper.ToBillDto(bill));
+        Console.WriteLine($"Bill saved at {_fileLocation}");
     }
+    
 }

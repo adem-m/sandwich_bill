@@ -8,12 +8,11 @@ public class OrderMapper
 {
     private static readonly DataStore DataStore = DataStore.Instance;
     
-    public static Order toOrder(OrderListDTO dto)
+    public static Order ToOrder(OrderListDto dto)
     {
         List<Sandwich> sandwiches = new List<Sandwich>();
         foreach (var orderDto in dto.Orders)
         {
-            
             if (orderDto.Name != null)
             {
                 // Then it is a known sandwich
@@ -29,7 +28,7 @@ public class OrderMapper
                     DataStore.MapQuantity(ingredient.Quantity)
                     ));
                 Sandwich currentSandwich = builder.Build();
-                
+
                 for (int i = 0; i < orderDto.Quantity; i++) sandwiches.Add(currentSandwich);
             }
             else throw new InvalidJsonEntryException();

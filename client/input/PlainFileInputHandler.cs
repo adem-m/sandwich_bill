@@ -17,11 +17,10 @@ public class PlainFileInputHandler : IInputHandler
     {
         List<Sandwich> sandwiches = new List<Sandwich>();
         TextInputParser inputParser = new TextInputParser();
-        foreach (string line in System.IO.File.ReadLines(Input.FileName))
+        foreach (string line in File.ReadLines(Input.FileName))
         {
             List<Sandwich> sandwich = inputParser.ParseLine(line);
-            sandwich.ForEach(s => Console.WriteLine(s.Ingredients[0].Item1.Name));
-            sandwiches.Concat(sandwich);
+            sandwiches.AddRange(sandwich);
         }
         return new Order(sandwiches);
     }

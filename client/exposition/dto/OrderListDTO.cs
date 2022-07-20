@@ -5,16 +5,20 @@ namespace Domain.Core.handlers;
 
 [Serializable()]
 [XmlRoot("root")]
-public class OrderListDTO
+public class OrderListDto
 {
     [JsonPropertyName("orders")]
     [XmlArray(ElementName="orders")]
-    [XmlArrayItem("order", Type=typeof(OrderDTO))]
-    public List<OrderDTO> Orders { get; set; }
+    [XmlArrayItem("order", Type=typeof(OrderDto))]
+    public List<OrderDto> Orders { get; set; }
     
     [JsonConstructor]
-    public OrderListDTO(List<OrderDTO> orders)
+    public OrderListDto(List<OrderDto> orders)
     {
         Orders = orders;
+    }
+    public OrderListDto()
+    {
+        Orders = new List<OrderDto>();
     }
 }

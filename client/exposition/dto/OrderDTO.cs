@@ -4,19 +4,20 @@ using System.Xml.Serialization;
 namespace Domain.Core.handlers;
 
 [Serializable]
-public class OrderDTO
+public class OrderDto
 {
-    [JsonPropertyName("quantity")]
-    [XmlElement("quantity")]
+    [JsonPropertyName("quantity")] [XmlElement("quantity")]
     public int Quantity { get; set; }
-    
-    [JsonPropertyName("name")]
-    [XmlElement("name")]
+
+    [JsonPropertyName("name")] [XmlElement("name")]
     public string? Name { get; set; }
-    
+
+    [XmlArray(ElementName = "ingredients")] [XmlArrayItem("ingredient", Type = typeof(IngredientDto))]
     [JsonPropertyName("ingredients")]
-    [XmlArray(ElementName="ingredients")]
-    [XmlArrayItem("ingredient", Type=typeof(IngredientDTO))]
-    public List<IngredientDTO>? Ingredients { get; set; }
-    
+    public List<IngredientDto>? Ingredients { get; set; }
+
+    public OrderDto()
+    {
+        Quantity = -1;
+    }
 }

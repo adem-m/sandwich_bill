@@ -16,13 +16,13 @@ public class JsonFileInputHandler : IInputHandler
     }
 
     public Order handle() {
-        OrderListDTO? orderDtoList;
-        using (StreamReader r = new StreamReader(_input.FileName))
+        OrderListDto? orderDtoList;
+        using (var r = new StreamReader(_input.FileName))
         {
             string json = r.ReadToEnd();
-            orderDtoList = JsonSerializer.Deserialize<OrderListDTO>(json);
+            orderDtoList = JsonSerializer.Deserialize<OrderListDto>(json);
         }
         if (orderDtoList == null) throw new InvalidJsonEntryException();
-        return OrderMapper.toOrder(orderDtoList);
+        return OrderMapper.ToOrder(orderDtoList);
     }
 }

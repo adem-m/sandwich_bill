@@ -5,12 +5,10 @@ using Domain.Core.handlers;
 namespace Client;
 
 using System;
-using System.Collections.Generic;
 using Domain.Core;
 
 public class Program
 {
-    private TextInputParser _textInputParser = new();
     private Menu _menu;
     private InputType? _inputType;
     private FactoryInputHandler? _inputFactory;
@@ -92,7 +90,7 @@ public class Program
             _inputType = InputType.Xml;
             return;
         }
-        _inputType = InputType.Text;
+        _inputType = InputType.TextFile;
     }
     
     private Order HandleInput()
@@ -118,10 +116,10 @@ public class Program
     
     private void HandleOutput(Bill bill)
     {
-        IOutputStrategy strategy = null;
+        IOutputStrategy strategy;
         switch (_inputType)
         {
-            case InputType.TextFile:
+            case InputType.Text:
                 strategy = new TextOutputStrategy();
                 break;
             case InputType.Json:
@@ -130,12 +128,12 @@ public class Program
             case InputType.Xml:
                 strategy = new XmlFileOutputStrategy(DEFAULT_FILE_LOCATION + ".xml");
                 break;
-            case InputType.Text:
+            case InputType.TextFile:
                 strategy = new TextFileOutputStrategy(DEFAULT_FILE_LOCATION + ".txt");
                 break;
             default:
                 throw new Exception("Input type not set");
         }
-        strategy?.DisplayOutput(bill);
+        strategy.DisplayOutput(bill);
     }
 }

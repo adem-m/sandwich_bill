@@ -4,21 +4,30 @@ using System.Xml.Serialization;
 namespace Domain.Core.handlers;
 
 [Serializable]
-public class SandwichDTO
+public class SandwichDto
 {
-    [JsonPropertyName("quantity")]
-    [XmlElement("quantity")]
+    [JsonPropertyName("quantity")] [XmlElement("quantity")]
     public int Quantity { get; set; }
-    
+
+    [JsonPropertyName("name")] [XmlElement("name")]
+    public string? Name { get; set; }
+
     [JsonPropertyName("ingredients")]
-    [XmlArray(ElementName="ingredients")]
-    [XmlArrayItem("ingredient", Type=typeof(IngredientDTO))]
-    public List<IngredientDTO> Ingredients { get; set; }
+    [XmlArray(ElementName = "ingredients")]
+    [XmlArrayItem("ingredient", Type = typeof(IngredientDto))]
+    public List<IngredientDto> Ingredients { get; set; }
     
     [JsonConstructor]
-    public SandwichDTO(int quantity, List<IngredientDTO> ingredients)
+    public SandwichDto(int quantity, List<IngredientDto> ingredients)
     {
         Quantity = quantity;
         Ingredients = ingredients;
+    }
+    
+    public SandwichDto()
+    {
+        Quantity = 0;
+        Name = "";
+        Ingredients = new List<IngredientDto>();
     }
 }

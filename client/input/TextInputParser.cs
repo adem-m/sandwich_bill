@@ -54,9 +54,7 @@ public class TextInputParser
         // Check if got a custom sandwich
         if (details.Contains(':'))
         {
-            Console.WriteLine("DETAIls: " + details);
             sandwich = DataStore.createSandwich(details);
-            Console.WriteLine("Sand: " + sandwich.Ingredients[0].Item1.Name);
         } 
         // Well known sandwich
         else
