@@ -29,8 +29,13 @@ public readonly struct Price
     }
 
     public static Price operator *(Price price, int factor) =>
-        new Price(price.Value * factor, price.Currency);
+        new(price.Value * factor, price.Currency);
 
     public static Price operator *(int factor, Price price) =>
-        new Price(price.Value * factor, price.Currency);
+        new(price.Value * factor, price.Currency);
+    
+    public static Price operator *(Quantity quantity, Price price) =>
+        new(price.Value * quantity.Value, price.Currency);
+    public static Price operator *( Price price, Quantity quantity) =>
+        new(price.Value * quantity.Value, price.Currency);
 }

@@ -1,8 +1,13 @@
-﻿namespace Domain.Exceptions;
+using Domain.Core;
+
+namespace Domain.Exceptions;
 
 public class UnknownIngredientException : Exception
 {
-    public UnknownIngredientException(string message) : base("Unknown ingredient: " + message)
+    public UnknownIngredientException(Ingredient ingredient) : base($"T'as cru qu'on avait du ou de la {ingredient.Name} ??")
+    {
+    }
+    public UnknownIngredientException(String ingredient) : base($"T'as cru qu'on avait du ou de la {ingredient} ??")
     {
     }
 }

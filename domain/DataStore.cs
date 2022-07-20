@@ -31,16 +31,19 @@ public class DataStore : Menu
 
     private static string DEFAULT_CURRENCY = "EUR";
     private static string GRAMS_UNIT = "g";
-
-    private static Ingredient BREAD = new("Pain");
-    private static Ingredient HAM = new("Tranche de jambon");
-    private static Ingredient BUTTER = new("Beurre");
-    private static Ingredient EGG = new("Oeuf");
-    private static Ingredient TOMATO = new("Tomate");
-    private static Ingredient CHICKEN = new("Tranche de poulet");
-    private static Ingredient MAYONNAISE = new("Mayonnaise");
-    private static Ingredient SALAD = new("Salade");
-    private static Ingredient TUNA = new("Thon");
+    
+    private static Price PRICE_PER_INGREDIENT = new(1, DEFAULT_CURRENCY);
+    
+    public static Ingredient BREAD = new("Pain");
+    public static Ingredient HAM = new("Tranche de jambon");
+    public static Ingredient BUTTER = new("Beurre");
+    public static Ingredient EGG = new("Oeuf");
+    public static Ingredient TOMATO = new("Tomate");
+    public static Ingredient CHICKEN = new("Tranche de poulet");
+    public static Ingredient MAYONNAISE = new("Mayonnaise");
+    public static Ingredient SALAD = new("Salade");
+    public static Ingredient TUNA = new("Thon");
+    
 
     private static Dictionary<string, Ingredient> _ingredients = new();
 
@@ -116,7 +119,7 @@ public class DataStore : Menu
             if (ingredientNameAndQuantity.Length != 2)
                 throw new InvalidIngredientFormat(ingredientEntry);
 
-            string ingredientName = ingredientNameAndQuantity[0];
+            string ingredientName = ingredientNameAndQuantity[0].Replace('_', ' ');
             string ingredientQuantity = ingredientNameAndQuantity[1];
             if (ingredientNameAndQuantity.Length != 2)
                 throw new InvalidIngredientFormat(ingredientEntry);
@@ -137,16 +140,15 @@ public class DataStore : Menu
         return builder.Build();
     }
 
-    private Ingredient MapIngredient(string entry)
+    public Ingredient MapIngredient(string entry)
     {
         Ingredient? ingredient = _ingredients.GetValueOrDefault(entry);
         if (!ingredient.HasValue)
             throw new UnknownIngredientException(entry);
-
         return ingredient.Value;
     }
 
-    private Quantity MapQuantity(string ingredientQuantity)
+    public Quantity MapQuantity(string ingredientQuantity)
     {
         string[] ingredientQuantityWithUnit = ingredientQuantity.Split("_");
         if (ingredientQuantityWithUnit.Length > 2)
@@ -156,5 +158,15 @@ public class DataStore : Menu
         string? unit = ingredientQuantityWithUnit.Length == 2 ? ingredientQuantityWithUnit[1] : null;
 
         return unit == null ? new Quantity(quantityEntry) : new Quantity(quantityEntry, unit);
+    }
+
+    public static Price GetPrice(Dictionary<Ingredient, Quantity> ingredients)
+    {
+        Price price = new Price(0, DEFAULT_CURRENCY);
+        foreach (var ingredient in ingredients)
+        {
+            price += PRICE_PER_INGREDIENT * ingredient.Value;
+        }
+        return price;
     }
 }
