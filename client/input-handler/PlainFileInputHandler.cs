@@ -14,7 +14,7 @@ public class PlainFileInputHandler : IInputHandler
         Input = input;
     }
 
-    public Order handle()
+    public Order getOrder()
     {
         List<Sandwich> sandwiches = new List<Sandwich>();
         TextInputParser inputParser = new TextInputParser();

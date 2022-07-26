@@ -1,6 +1,5 @@
 ﻿using System;
 using Domain.Core;
-using Client.Input;
 using Client.Output;
 using Client.InputHandler;
 
@@ -9,17 +8,14 @@ namespace Client;
 public class Program
 {
     private Menu _menu;
-    private InputType? _inputType;
-    private FactoryInputHandler? _inputFactory;
-    private OutputStrategyFactory outputStrategyFactory = new OutputStrategyFactory();
+    private InputHandlerFactory _inputFactory = new InputHandlerFactory();
+    private OutputStrategyFactory _outputStrategyFactory = new OutputStrategyFactory();
     
     private static string DEFAULT_FILE_LOCATION = "./output/bill";
     
     public Program(Menu menu)
     {
         _menu = menu;
-        _inputFactory = null;
-        _inputType = null;
     }
 
     public static int Main()
@@ -50,7 +46,7 @@ public class Program
                 }
 
                 Order order = HandleInput(args[0].Trim());
-                IOutputStrategy outputStrategy = outputStrategyFactory.getStrategy(args[1].Trim(), DEFAULT_FILE_LOCATION);
+                IOutputStrategy outputStrategy = _outputStrategyFactory.getStrategy(args[1].Trim(), DEFAULT_FILE_LOCATION);
                 Bill bill = GenerateBill(order);
                 HandleOutput(bill, outputStrategy);
             }
@@ -60,11 +56,6 @@ public class Program
                 continue;
             }
         }
-    }
-
-    private void DisplayBill(Bill bill)
-    {
-        Console.WriteLine(bill.ToString());
     }
 
     private void DisplayWelcome()
@@ -83,34 +74,11 @@ public class Program
         |_____\___| |_| \_\___||___/\__\__,_|\__,_|_|  \__,_|_| |_|\__|";
         banner += "\n\nTapez vos commandes ici, bande de malpropres :";
         Console.WriteLine(banner);
-    }
-
-    private void InferInputType(string input)
-    {
-        if (input.EndsWith(".txt"))
-        {
-            _inputType = InputType.TextFile;
-            return;
-        } 
-        if(input.EndsWith(".json"))
-        {
-            _inputType = InputType.Json;
-            return;
-        }
-        if(input.EndsWith(".xml"))
-        {
-            _inputType = InputType.Xml;
-            return;
-        }
-        _inputType = InputType.Text;
-    }
-    
+    }    
     private Order HandleInput(string entry)
     {
-        InferInputType(entry);
-        if (_inputType == null) throw new Exception("Input type not set");
-        _inputFactory = new FactoryInputHandler(_inputType.Value);
-        return _inputFactory.handle(entry);
+        IInputHandler inputHandler = _inputFactory.getHandler(entry);
+        return inputHandler.getOrder();
     }
 
     private Bill GenerateBill(Order order)
@@ -122,25 +90,5 @@ public class Program
     }
     
     private void HandleOutput(Bill bill, IOutputStrategy outputStrategy)
-    {
-        // IOutputStrategy strategy;
-        // switch (_inputType)
-        // {
-        //     case InputType.Text:
-        //         strategy = new TextOutputStrategy();
-        //         break;
-        //     case InputType.Json:
-        //         strategy = new JsonFileOutputStrategy(DEFAULT_FILE_LOCATION + ".json");
-        //         break;
-        //     case InputType.Xml:
-        //         strategy = new XmlFileOutputStrategy(DEFAULT_FILE_LOCATION + ".xml");
-        //         break;
-        //     case InputType.TextFile:
-        //         strategy = new TextFileOutputStrategy(DEFAULT_FILE_LOCATION + ".txt");
-        //         break;
-        //     default:
-        //         throw new Exception("Input type not set");
-        // }
-        outputStrategy.DisplayOutput(bill);
-    }
+        => outputStrategy.DisplayOutput(bill);
 }

@@ -5,7 +5,7 @@ using System.Collections.ObjectModel;
 
 namespace Domain.Core;
 
-public struct Sandwich
+public class Sandwich
 {
     public string Name { get; init; }
     private Dictionary<Ingredient, Quantity> _ingredients;
@@ -26,6 +26,11 @@ public struct Sandwich
         Name = name;
         _ingredients = ingredients;
         Price = price;
+    }
+
+    public Sandwich(Price price, Dictionary<Ingredient, Quantity> ingredients): 
+        this("Sandwich custom", price, ingredients)
+    {
     }
 
     // Add an ingredient to the sandwich

@@ -13,12 +13,12 @@ public class JsonFileInputHandler : IInputHandler
 
     private JsonFileInput _input { get; }
     
-    public JsonFileInputHandler( JsonFileInput input)
+    public JsonFileInputHandler(JsonFileInput input)
     {
         _input = input;
     }
 
-    public Order handle() {
+    public Order getOrder() {
         OrderListDto? orderDtoList;
         using (var r = new StreamReader(_input.FileName))
         {

@@ -15,7 +15,7 @@ public class XmlFileInputHandler : IInputHandler
     {
         _input = input;
     }
-    public Order handle()
+    public Order getOrder()
     {
         OrderListDto? orderDtoList;
         XmlSerializer serializer = new XmlSerializer(typeof(OrderListDto));

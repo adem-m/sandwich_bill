@@ -13,7 +13,7 @@ public class PlainInputHandler : IInputHandler
         _dataStore = DataStore.Instance;
         _input = input;
     }
-    public Order handle()
+    public Order getOrder()
     {
         TextInputParser textInputParser = new TextInputParser();
         return new Order(textInputParser.ParseLine(_input.Content));

@@ -31,7 +31,7 @@ public class SandwichBuilder
 
     public Sandwich Build()
     {
-        if (_name is null || _ingredients.Count == 0)
+        if (_name is null && _ingredients.Count == 0)
         {
             throw new SandwichArgumentException();
         } 
@@ -39,6 +39,11 @@ public class SandwichBuilder
         if (_price is null)
         {
             _price = DataStore.GetPrice(_ingredients);
+        }
+
+        if (_name is null)
+        {
+            return new Sandwich(_price.Value, _ingredients);
         }
    
         return new Sandwich(_name, _price.Value, _ingredients);

@@ -3,5 +3,5 @@ namespace Client.InputHandler;
 
 public interface IInputHandler
 {
-    Order handle();
+    Order getOrder();
 }

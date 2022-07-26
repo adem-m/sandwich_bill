@@ -21,13 +21,13 @@ public class OrderMapper
             else if (orderDto.Ingredients != null)
             {
                 // Then it is a custom sandwich
+                Console.WriteLine("Custom order");
                 SandwichBuilder builder = new SandwichBuilder();
                 orderDto.Ingredients.ForEach(ingredient => builder.WithIngredient(
                     DataStore.MapIngredient(ingredient.Name),
                     DataStore.MapQuantity(ingredient.Quantity)
                     ));
                 Sandwich currentSandwich = builder.Build();
-
                 for (int i = 0; i < orderDto.Quantity; i++) sandwiches.Add(currentSandwich);
             }
             else throw new InvalidJsonEntryException();
