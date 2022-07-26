@@ -3,23 +3,22 @@ using Client.Exceptions;
 using Domain.Core;
 using Client.DTOs;
 using Client.Mappers;
-using Client.Input;
 
-namespace Client.InputHandler;
+namespace Client.InputHandlers;
 
 public class XmlFileInputHandler : IInputHandler
 {
-    private readonly XmlFileInput _input;
+    private readonly string _filepath;
     
-    public XmlFileInputHandler(XmlFileInput input)
+    public XmlFileInputHandler(string filepath)
     {
-        _input = input;
+        _filepath = filepath;
     }
     public Order getOrder()
     {
         OrderListDto? orderDtoList;
         XmlSerializer serializer = new XmlSerializer(typeof(OrderListDto));
-        using (StreamReader r = new StreamReader(_input.FileName))
+        using (StreamReader r = new StreamReader(_filepath))
         {
             orderDtoList = (OrderListDto)serializer.Deserialize(r)!;
         }

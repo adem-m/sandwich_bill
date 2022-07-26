@@ -1,14 +1,14 @@
 using Domain.Core;
-using Client.Input;
-namespace Client.InputHandler;
+
+namespace Client.InputHandlers;
 
 public class PlainInputHandler : IInputHandler
 {
     private DataStore _dataStore;
 
-    private readonly PlainInput _input;
+    private readonly string _input;
 
-    public PlainInputHandler( PlainInput input)
+    public PlainInputHandler(string input)
     {
         _dataStore = DataStore.Instance;
         _input = input;
@@ -16,6 +16,6 @@ public class PlainInputHandler : IInputHandler
     public Order getOrder()
     {
         TextInputParser textInputParser = new TextInputParser();
-        return new Order(textInputParser.ParseLine(_input.Content));
+        return new Order(textInputParser.ParseLine(_input));
     }
 }

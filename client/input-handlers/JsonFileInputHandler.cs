@@ -3,24 +3,23 @@ using Client.Exceptions;
 using Client.Mappers;
 using Client.DTOs;
 using Domain.Core;
-using Client.Input;
 
-namespace Client.InputHandler;
+namespace Client.InputHandlers;
 
 public class JsonFileInputHandler : IInputHandler
 {
     private static readonly DataStore DataStore = DataStore.Instance;
 
-    private JsonFileInput _input { get; }
+    private readonly string _filepath;
     
-    public JsonFileInputHandler(JsonFileInput input)
+    public JsonFileInputHandler(string filepath)
     {
-        _input = input;
+        _filepath = filepath;
     }
 
     public Order getOrder() {
         OrderListDto? orderDtoList;
-        using (var r = new StreamReader(_input.FileName))
+        using (var r = new StreamReader(_filepath))
         {
             string json = r.ReadToEnd();
             orderDtoList = JsonSerializer.Deserialize<OrderListDto>(json);

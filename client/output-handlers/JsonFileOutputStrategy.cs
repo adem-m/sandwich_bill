@@ -2,7 +2,7 @@ using System.Text.Json;
 using Domain.Core;
 using Client.Mappers;
 
-namespace Client.Output;
+namespace Client.OutputHandlers;
 
 public class JsonFileOutputStrategy : IOutputStrategy
 {

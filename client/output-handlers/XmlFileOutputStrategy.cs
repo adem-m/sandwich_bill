@@ -4,7 +4,7 @@ using Domain.Core;
 using Client.DTOs;
 using Client.Mappers;
 
-namespace Client.Output;
+namespace Client.OutputHandlers;
 
 public class XmlFileOutputStrategy : IOutputStrategy
 {

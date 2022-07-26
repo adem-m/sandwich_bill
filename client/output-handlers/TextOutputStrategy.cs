@@ -1,6 +1,6 @@
 using Domain.Core;
 
-namespace Client.Output;
+namespace Client.OutputHandlers;
 
 public class TextOutputStrategy : IOutputStrategy
 {

@@ -1,5 +1,5 @@
 using System;
-namespace Client.Output;
+namespace Client.OutputHandlers;
 
 public class OutputStrategyFactory
 {

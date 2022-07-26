@@ -1,24 +1,23 @@
 using Domain.Core;
-using Client.Input;
 
-namespace Client.InputHandler;
+namespace Client.InputHandlers;
 
 public class PlainFileInputHandler : IInputHandler
 {
     private static readonly DataStore DataStore = DataStore.Instance;
     
-    private PlainFileInput Input { get; }
+    private readonly string _filepath;
     
-    public PlainFileInputHandler(PlainFileInput input)
+    public PlainFileInputHandler(string filepath)
     {
-        Input = input;
+        _filepath = filepath;
     }
 
     public Order getOrder()
     {
         List<Sandwich> sandwiches = new List<Sandwich>();
         TextInputParser inputParser = new TextInputParser();
-        foreach (string line in File.ReadLines(Input.FileName))
+        foreach (string line in File.ReadLines(_filepath))
         {
             List<Sandwich> sandwich = inputParser.ParseLine(line);
             sandwiches.AddRange(sandwich);

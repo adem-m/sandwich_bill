@@ -1,5 +1,5 @@
 using Domain.Core;
-namespace Client.InputHandler;
+namespace Client.InputHandlers;
 
 public interface IInputHandler
 {

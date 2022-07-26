@@ -1,7 +1,7 @@
 ﻿using System;
 using Domain.Core;
-using Client.Output;
-using Client.InputHandler;
+using Client.OutputHandlers;
+using Client.InputHandlers;
 
 namespace Client;
 
