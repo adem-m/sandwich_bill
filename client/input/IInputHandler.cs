@@ -1,4 +1,5 @@
-namespace Domain.Core.handlers;
+using Domain.Core;
+namespace Client.Input;
 
 public interface IInputHandler
 {

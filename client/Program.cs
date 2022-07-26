@@ -1,6 +1,5 @@
-﻿using Client.input;
-using Client.output;
-using Domain.Core.handlers;
+﻿using Client.Input;
+using Client.Output;
 
 namespace Client;
 

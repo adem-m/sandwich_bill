@@ -1,6 +1,5 @@
-using Client;
-
-namespace Domain.Core.handlers;
+using Domain.Core;
+namespace Client.Input;
 
 public class PlainInputHandler : IInputHandler
 {

@@ -1,8 +1,10 @@
 using System.Text.Json;
 using Client.Exceptions;
-using Client.exposition.mapper;
+using Client.Mappers;
+using Client.DTOs;
+using Domain.Core;
 
-namespace Domain.Core.handlers;
+namespace Client.Input;
 
 public class JsonFileInputHandler : IInputHandler
 {

@@ -1,4 +1,6 @@
-namespace Domain.Core.handlers;
+using Domain.Core;
+using Client.DTOs;
+namespace Client.Mappers;
 
 public class BillMapper
 {

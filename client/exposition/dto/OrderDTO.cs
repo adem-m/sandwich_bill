@@ -1,7 +1,7 @@
 using System.Text.Json.Serialization;
 using System.Xml.Serialization;
 
-namespace Domain.Core.handlers;
+namespace Client.DTOs;
 
 [Serializable]
 public class OrderDto

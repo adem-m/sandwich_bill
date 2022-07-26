@@ -1,6 +1,6 @@
 using Domain.Core;
 
-namespace Client.output;
+namespace Client.Output;
 
 public interface IOutputStrategy
 {

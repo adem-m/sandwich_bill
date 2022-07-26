@@ -1,9 +1,10 @@
 using System.Xml.Linq;
 using System.Xml.Serialization;
 using Domain.Core;
-using Domain.Core.handlers;
+using Client.DTOs;
+using Client.Mappers;
 
-namespace Client.output;
+namespace Client.Output;
 
 public class XmlFileOutputStrategy : IOutputStrategy
 {

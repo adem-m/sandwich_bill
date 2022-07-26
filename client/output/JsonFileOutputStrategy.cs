@@ -1,8 +1,8 @@
 using System.Text.Json;
 using Domain.Core;
-using Domain.Core.handlers;
+using Client.Mappers;
 
-namespace Client.output;
+namespace Client.Output;
 
 public class JsonFileOutputStrategy : IOutputStrategy
 {

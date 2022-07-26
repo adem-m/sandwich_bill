@@ -1,4 +1,4 @@
-namespace Client.input;
+namespace Client.Input;
 
 public enum InputType
 {

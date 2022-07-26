@@ -1,6 +1,6 @@
 using Domain.Core;
 
-namespace Client;
+namespace Client.Input;
 
 using System;
 using System.Collections.Generic;
@@ -46,10 +46,10 @@ public class TextInputParser
 
     private  Sandwich ParseSandwich(string sandwichString)
     {
-        string trimmedEntry = sandwichString.Trim();
-        int spaceIndex = trimmedEntry.IndexOf(" ", StringComparison.Ordinal);
-        if (spaceIndex == -1) throw new InvalidEntryException(trimmedEntry);
-        string details = trimmedEntry.Substring(spaceIndex + 1).Trim();
+        string details /*trimmedEntry*/ = sandwichString.Trim();
+        // int spaceIndex = trimmedEntry.IndexOf(" ", StringComparison.Ordinal);
+        // if (spaceIndex == -1) throw new InvalidEntryException(trimmedEntry);
+        // string details = trimmedEntry.Substring(spaceIndex + 1).Trim();
         Sandwich sandwich;
         // Check if got a custom sandwich
         if (details.Contains(':'))

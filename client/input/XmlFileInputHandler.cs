@@ -1,8 +1,10 @@
 using System.Xml.Serialization;
 using Client.Exceptions;
-using Client.exposition.mapper;
+using Domain.Core;
+using Client.DTOs;
+using Client.Mappers;
 
-namespace Domain.Core.handlers;
+namespace Client.Input;
 
 public class XmlFileInputHandler : IInputHandler
 {
