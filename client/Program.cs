@@ -11,6 +11,7 @@ public class Program
     private Menu _menu;
     private InputType? _inputType;
     private FactoryInputHandler? _inputFactory;
+    private OutputStrategyFactory outputStrategyFactory = new OutputStrategyFactory();
     
     private static string DEFAULT_FILE_LOCATION = "./output/bill";
     
@@ -34,18 +35,30 @@ public class Program
         DisplayWelcome();
         while (true)
         {
-            Order order;
             try
             {
-                order = HandleInput();
+                string? entry = Console.ReadLine();
+                if (entry is null)
+                {
+                    throw new Exception("Vous avez fait une erreur de saisie, bande de malpropres");
+                }
+
+                List<string> args = entry.Split("-o").ToList();
+                if (args.Count != 2)
+                {
+                    throw new Exception("Vous avez fait une erreur de saisie, bande de malpropres");
+                }
+
+                Order order = HandleInput(args[0].Trim());
+                IOutputStrategy outputStrategy = outputStrategyFactory.getStrategy(args[1].Trim(), DEFAULT_FILE_LOCATION);
+                Bill bill = GenerateBill(order);
+                HandleOutput(bill, outputStrategy);
             }
             catch (Exception e)
             {
                 Console.WriteLine(e.Message);
                 continue;
             }
-            Bill bill = GenerateBill(order);
-            HandleOutput(bill);
         }
     }
 
@@ -74,9 +87,9 @@ public class Program
 
     private void InferInputType(string input)
     {
-        if (!input.Contains('/'))
+        if (input.EndsWith(".txt"))
         {
-            _inputType = InputType.Text;
+            _inputType = InputType.TextFile;
             return;
         } 
         if(input.EndsWith(".json"))
@@ -89,16 +102,11 @@ public class Program
             _inputType = InputType.Xml;
             return;
         }
-        _inputType = InputType.TextFile;
+        _inputType = InputType.Text;
     }
     
-    private Order HandleInput()
+    private Order HandleInput(string entry)
     {
-        string? entry = Console.ReadLine();
-        if (entry == null)
-        {
-            throw new Exception("Vous avez fait une erreur de saisie, bande de malpropres");
-        }
         InferInputType(entry);
         if (_inputType == null) throw new Exception("Input type not set");
         _inputFactory = new FactoryInputHandler(_inputType.Value);
@@ -113,26 +121,26 @@ public class Program
         });
     }
     
-    private void HandleOutput(Bill bill)
+    private void HandleOutput(Bill bill, IOutputStrategy outputStrategy)
     {
-        IOutputStrategy strategy;
-        switch (_inputType)
-        {
-            case InputType.Text:
-                strategy = new TextOutputStrategy();
-                break;
-            case InputType.Json:
-                strategy = new JsonFileOutputStrategy(DEFAULT_FILE_LOCATION + ".json");
-                break;
-            case InputType.Xml:
-                strategy = new XmlFileOutputStrategy(DEFAULT_FILE_LOCATION + ".xml");
-                break;
-            case InputType.TextFile:
-                strategy = new TextFileOutputStrategy(DEFAULT_FILE_LOCATION + ".txt");
-                break;
-            default:
-                throw new Exception("Input type not set");
-        }
-        strategy.DisplayOutput(bill);
+        // IOutputStrategy strategy;
+        // switch (_inputType)
+        // {
+        //     case InputType.Text:
+        //         strategy = new TextOutputStrategy();
+        //         break;
+        //     case InputType.Json:
+        //         strategy = new JsonFileOutputStrategy(DEFAULT_FILE_LOCATION + ".json");
+        //         break;
+        //     case InputType.Xml:
+        //         strategy = new XmlFileOutputStrategy(DEFAULT_FILE_LOCATION + ".xml");
+        //         break;
+        //     case InputType.TextFile:
+        //         strategy = new TextFileOutputStrategy(DEFAULT_FILE_LOCATION + ".txt");
+        //         break;
+        //     default:
+        //         throw new Exception("Input type not set");
+        // }
+        outputStrategy.DisplayOutput(bill);
     }
 }
