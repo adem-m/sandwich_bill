@@ -38,7 +38,7 @@ public class TextInputParser
                 throw new InvalidEntryException(trimmedEntry);
             }
             Sandwich sandwich = ParseSandwich(trimmedEntry.Substring(spaceIndex + 1));
-            for (int i = 0; i < sandwichQuantity; i++) result.Add(sandwich);
+            for (int i = 1; i < sandwichQuantity; i++) result.Add(sandwich);
             result.Add(sandwich);
         });
         return result;
@@ -46,10 +46,10 @@ public class TextInputParser
 
     private  Sandwich ParseSandwich(string sandwichString)
     {
-        string details /*trimmedEntry*/ = sandwichString.Trim();
-        // int spaceIndex = trimmedEntry.IndexOf(" ", StringComparison.Ordinal);
-        // if (spaceIndex == -1) throw new InvalidEntryException(trimmedEntry);
-        // string details = trimmedEntry.Substring(spaceIndex + 1).Trim();
+        string trimmedEntry = sandwichString.Trim();
+        int spaceIndex = trimmedEntry.IndexOf(" ", StringComparison.Ordinal);
+
+        string details = trimmedEntry.Substring(spaceIndex + 1).Trim();
         Sandwich sandwich;
         // Check if got a custom sandwich
         if (details.Contains(':'))

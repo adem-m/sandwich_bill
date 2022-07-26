@@ -98,6 +98,7 @@ public class DataStore : Menu
 
     public Sandwich getByName(string name)
     {
+        name = name.Replace('_', ' ');
         if (!_data.ContainsKey(name))
         {
             throw new UnknownSandwichException(name);
