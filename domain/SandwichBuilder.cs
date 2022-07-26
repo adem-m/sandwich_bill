@@ -29,7 +29,7 @@ public class SandwichBuilder
 
     public Sandwich Build()
     {
-        if (_name is null && _ingredients.Count == 0)
+        if (_name is null || _ingredients.Count == 0 || _price is null)
         {
             throw new SandwichArgumentException();
         } 
