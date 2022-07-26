@@ -28,13 +28,6 @@ public struct Sandwich
         Price = price;
     }
 
-    public Sandwich(Price price, Dictionary<Ingredient, Quantity> ingredients)
-    {
-        Name = "Unamed sandwich";
-        _ingredients = ingredients;
-        Price = price;
-    }
-
     // Add an ingredient to the sandwich
     public void AddIngredient(Ingredient ingredient, Quantity quantity)
     {

@@ -1,9 +1,11 @@
-﻿using Domain.Exceptions;
+﻿using System.Linq;
+using Domain.Exceptions;
 
 namespace Domain.Core;
 
 public class SandwichBuilder
 {
+    private static string DEFAULT_CURRENCY = "EUR";
     private string? _name;
     private Dictionary<Ingredient, Quantity> _ingredients = new Dictionary<Ingredient, Quantity>();
     private Price? _price;
@@ -29,15 +31,14 @@ public class SandwichBuilder
 
     public Sandwich Build()
     {
-        if (_name is null || _ingredients.Count == 0 || _price is null)
+        if (_name is null || _ingredients.Count == 0)
         {
             throw new SandwichArgumentException();
         } 
-        _price = DataStore.GetPrice(_ingredients);
 
-        if (_name is null)
+        if (_price is null)
         {
-            return new Sandwich(_price.Value, _ingredients);
+            _price = DataStore.GetPrice(_ingredients);
         }
    
         return new Sandwich(_name, _price.Value, _ingredients);
