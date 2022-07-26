@@ -1,5 +1,6 @@
 using Domain.Core;
-namespace Client.Input;
+using Client.Input;
+namespace Client.InputHandler;
 
 public class FactoryInputHandler {
     

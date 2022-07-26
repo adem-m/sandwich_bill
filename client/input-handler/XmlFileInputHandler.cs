@@ -3,8 +3,9 @@ using Client.Exceptions;
 using Domain.Core;
 using Client.DTOs;
 using Client.Mappers;
+using Client.Input;
 
-namespace Client.Input;
+namespace Client.InputHandler;
 
 public class XmlFileInputHandler : IInputHandler
 {

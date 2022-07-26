@@ -1,6 +1,6 @@
 using Domain.Core;
 
-namespace Client.Input;
+namespace Client.InputHandler;
 
 using System;
 using System.Collections.Generic;

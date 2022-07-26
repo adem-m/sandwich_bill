@@ -1,6 +1,7 @@
 using Domain.Core;
+using Client.Input;
 
-namespace Client.Input;
+namespace Client.InputHandler;
 
 public class PlainFileInputHandler : IInputHandler
 {

@@ -3,8 +3,9 @@ using Client.Exceptions;
 using Client.Mappers;
 using Client.DTOs;
 using Domain.Core;
+using Client.Input;
 
-namespace Client.Input;
+namespace Client.InputHandler;
 
 public class JsonFileInputHandler : IInputHandler
 {

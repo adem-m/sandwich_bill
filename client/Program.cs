@@ -1,10 +1,10 @@
-﻿using Client.Input;
+﻿using System;
+using Domain.Core;
+using Client.Input;
 using Client.Output;
+using Client.InputHandler;
 
 namespace Client;
-
-using System;
-using Domain.Core;
 
 public class Program
 {

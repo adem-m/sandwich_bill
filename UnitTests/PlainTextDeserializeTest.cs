@@ -1,5 +1,6 @@
 using Domain.Core;
-using Domain.Core.handlers;
+using Client.Input;
+using Client.InputHandler;
 
 namespace UnitTests;
 
