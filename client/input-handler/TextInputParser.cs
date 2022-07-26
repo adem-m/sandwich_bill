@@ -37,7 +37,7 @@ public class TextInputParser
             {
                 throw new InvalidEntryException(trimmedEntry);
             }
-            Sandwich sandwich = ParseSandwich(trimmedEntry.Substring(spaceIndex + 1));
+            Sandwich sandwich = ParseSandwich(trimmedEntry);
             for (int i = 1; i < sandwichQuantity; i++) result.Add(sandwich);
             result.Add(sandwich);
         });
