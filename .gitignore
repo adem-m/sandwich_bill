@@ -4,3 +4,6 @@ obj/
 .idea/
 .DS_Store
 .fake
+
+# Project 
+/output/
